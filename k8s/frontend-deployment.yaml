@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: automobile-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: automobile-frontend
+  template:
+    metadata:
+      labels:
+        app: automobile-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: yourusername/automobile-frontend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_BASE_URL
+              value: http://automobile-backend-service:8080
+
