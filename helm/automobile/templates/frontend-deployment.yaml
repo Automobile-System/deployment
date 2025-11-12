@@ -1,23 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: automobile-frontend
+  name: {{ include "automobile.fullname" . }}-frontend
   labels:
+    {{- include "automobile.labels" . | nindent 4 }}
     app: automobile-frontend
 spec:
-  replicas: 2
+  replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
-      app: automobile-frontend
+      {{- include "automobile.frontend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: automobile-frontend
+        {{- include "automobile.frontend.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: frontend
-          image: yourusername/automobile-frontend:latest
-          imagePullPolicy: Always
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 3000
@@ -30,15 +31,10 @@ spec:
             - name: NEXT_PUBLIC_BASE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: frontend-config
+                  name: {{ include "automobile.fullname" . }}-frontend-config
                   key: NEXT_PUBLIC_BASE_URL
           resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /

@@ -1,0 +1,13 @@
+apiVersion: v2
+name: automobile
+description: A Helm chart for Automobile Enterprise System
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - automobile
+  - enterprise
+  - management
+maintainers:
+  - name: Automobile Team
+

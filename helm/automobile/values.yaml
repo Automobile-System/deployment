@@ -1,0 +1,85 @@
+# Default values for automobile
+# This is a YAML-formatted file.
+
+# Global settings
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+
+# Backend configuration
+backend:
+  image:
+    repository: yourusername/automobile-backend
+    tag: latest
+    pullPolicy: Always
+  
+  replicaCount: 2
+  
+  service:
+    type: ClusterIP
+    port: 8080
+  
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "1000m"
+  
+  javaOpts: "-Xmx512m -Xms256m"
+  
+  jpa:
+    ddlAuto: "update"
+
+# Frontend configuration
+frontend:
+  image:
+    repository: yourusername/automobile-frontend
+    tag: latest
+    pullPolicy: Always
+  
+  replicaCount: 2
+  
+  service:
+    type: LoadBalancer
+    port: 3000
+  
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  
+  baseUrl: "http://automobile-backend-service:8080"
+
+# Database configuration (Neon PostgreSQL)
+database:
+  config:
+    url: "jdbc:postgresql://ep-holy-river-a8f0y6nq-pooler.eastus2.azure.neon.tech:5432/neondb?sslmode=require"
+  
+  secret:
+    username: "neondb_owner"
+    password: "npg_qbgjWXc5nJ3h"
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: automobile.local
+      paths:
+        - path: /
+          pathType: Prefix
+        - path: /api
+          pathType: Prefix
+        - path: /actuator
+          pathType: Prefix
+        - path: /swagger-ui
+          pathType: Prefix
+
