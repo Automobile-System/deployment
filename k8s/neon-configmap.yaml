@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: neon-db-config
 data:
-  SPRING_DATASOURCE_URL: jdbc:postgresql://ep-holy-river-a8f0y6nq-pooler.eastus2.azure.neon.tech:5432/neondb?sslmode=require
+  SPRING_DATASOURCE_URL: jdbc:postgresql://ep-holy-river-a8f0y6nq-pooler.eastus2.azure.neon.tech:5432/neondb?sslmode=require&preparedStatementCacheQueries=0&preparedStatementCacheSizeMiB=0
 

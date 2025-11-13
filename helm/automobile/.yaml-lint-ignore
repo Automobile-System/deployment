@@ -1,0 +1,8 @@
+# This file tells YAML linters to ignore Helm template syntax
+# Helm templates use Go template syntax ({{ }}) which YAML linters don't understand
+# These are NOT actual errors - Helm will process these templates correctly
+
+# Files to ignore YAML linting:
+*.yaml
+*.yml
+

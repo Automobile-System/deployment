@@ -83,3 +83,4 @@ ingress:
         - path: /swagger-ui
           pathType: Prefix
 
+

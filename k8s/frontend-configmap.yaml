@@ -3,5 +3,6 @@ kind: ConfigMap
 metadata:
   name: frontend-config
 data:
-  NEXT_PUBLIC_BASE_URL: "http://automobile-backend-service:8080"
+  NEXT_PUBLIC_BASE_URL: ""  # Empty = relative URLs (works with Ingress)
+
 

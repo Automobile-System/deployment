@@ -62,3 +62,4 @@ Frontend selector labels
 app: automobile-frontend
 {{- end }}
 
+

@@ -16,3 +16,4 @@ metadata:
 data:
   NEXT_PUBLIC_BASE_URL: {{ .Values.frontend.baseUrl | quote }}
 
+

@@ -15,3 +15,4 @@ spec:
   selector:
     {{- include "automobile.frontend.selectorLabels" . | nindent 4 }}
 
+

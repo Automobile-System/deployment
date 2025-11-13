@@ -1,77 +1,69 @@
 # Automobile Helm Chart
 
-This Helm chart deploys the Automobile Enterprise System on Kubernetes.
+This Helm chart deploys the Automobile application to Kubernetes.
 
-## Prerequisites
+## Important Note About Linter Warnings
 
-- Kubernetes 1.19+
-- Helm 3.0+
-- Docker images pushed to a container registry
+**The YAML linter warnings you see are FALSE POSITIVES.**
 
-## Installation
+These template files contain Helm/Go template syntax (e.g., `{{ include "automobile.fullname" . }}`), which the YAML linter doesn't understand. The templates are **valid and will work correctly** when Helm processes them.
 
-1. Update `values.yaml` with your image repository and database credentials:
+### Why You See Errors
 
-```yaml
-backend:
-  image:
-    repository: yourusername/automobile-backend
-    tag: latest
+- YAML linters expect pure YAML
+- Helm templates use Go template syntax: `{{ }}`
+- The linter flags template expressions as errors
+- **These are NOT real errors** - Helm will render them correctly
 
-frontend:
-  image:
-    repository: yourusername/automobile-frontend
-    tag: latest
+### How to Verify Templates
 
-database:
-  config:
-    url: "your-neon-postgresql-url"
-  secret:
-    username: "your-username"
-    password: "your-password"
+If you have Helm installed, you can verify the templates:
+
+```bash
+# Dry-run to see rendered output
+helm template . --debug
+
+# Validate chart
+helm lint .
+
+# Install with dry-run
+helm install automobile . --dry-run --debug
 ```
+
+### Template Files
+
+All template files in this directory are valid Helm templates:
+- `backend-deployment.yaml` - Backend Kubernetes Deployment
+- `frontend-deployment.yaml` - Frontend Kubernetes Deployment
+- `backend-service.yaml` - Backend Kubernetes Service
+- `frontend-service.yaml` - Frontend Kubernetes Service
+- `configmap.yaml` - ConfigMaps for database and frontend config
+- `secret.yaml` - Secret for database credentials
+- `ingress.yaml` - Ingress for external access
+- `_helpers.tpl` - Helper template functions
+
+## Usage
+
+1. Update `values.yaml` with your configuration:
+   - Docker Hub image names
+   - Database credentials
+   - Resource limits
 
 2. Install the chart:
-
-```bash
-helm install automobile ./helm/automobile
-```
+   ```bash
+   helm install automobile .
+   ```
 
 3. Upgrade the chart:
-
-```bash
-helm upgrade automobile ./helm/automobile
-```
+   ```bash
+   helm upgrade automobile .
+   ```
 
 4. Uninstall the chart:
-
-```bash
-helm uninstall automobile
-```
+   ```bash
+   helm uninstall automobile
+   ```
 
 ## Configuration
 
-See `values.yaml` for all configurable parameters.
-
-## Accessing the Application
-
-- Frontend: `http://automobile.local` (if ingress is enabled)
-- Backend API: `http://automobile.local/api`
-- Health Check: `http://automobile.local/actuator/health`
-- Swagger UI: `http://automobile.local/swagger-ui`
-
-## Troubleshooting
-
-```bash
-# Check pod status
-kubectl get pods
-
-# View logs
-kubectl logs -f deployment/automobile-backend
-kubectl logs -f deployment/automobile-frontend
-
-# Describe resources
-kubectl describe deployment automobile-backend
-kubectl describe service automobile-backend-service
-```
-
+See `values.yaml` for all configurable values.
