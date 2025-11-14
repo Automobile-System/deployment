@@ -1,6 +1,4 @@
 # Environment files
-.env
-.env.local
 .env.*.local
 
 # Docker Compose override files
@@ -11,7 +9,6 @@ docker-compose.override.yml
 
 # IDE files
 .idea/
-.vscode/
 *.swp
 *.swo
 *~
@@ -21,3 +18,5 @@ docker-compose.override.yml
 Thumbs.db
 
 
+config.bat
+node_modules
